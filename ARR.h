@@ -20,6 +20,7 @@ class hashtable{
     int hash(char * value);
     int display(char * value);
     int remove_all();
+    int remove(char * value);
     int add(char * to_add, int owes);//for addition to LLL
 
 
@@ -28,6 +29,7 @@ class hashtable{
     int display(node * head, char * value);
     int remove_all(node ** array, int & index);
     int remove_all(node *&head);
+    int remove(node *&head, char * value);
     
     //data members
     int hash_table_size;

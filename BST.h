@@ -1,1 +1,43 @@
 //BST HEADER FILE
+#include <iostream>
+#include <cctype>
+#include <cstring>
+using namespace std;
+
+
+struct node{
+  node(char * to_add, int owes, int ascii);//for ascii sorting
+  node(char * to_add, int owes);//for alphabetical sorting
+  node * left;
+  node * right;
+  char * data;//hold the name of the person
+  int data_value;//holds data's ascii value if we use it.
+  int owed;//holds amount owed
+};
+
+
+class tree
+{
+  public:
+    tree();
+    ~tree();
+    int add(char * value, int owes);
+    int add_alp(char * value, int owes);
+    int hash(char * value);//if we choose to use this to get the ascii value of a word for insert
+    int display(char * value);
+    int display_alp(char * value);
+    int remove_alp(char * value);
+    int remove(char * value);
+
+  private:
+    int add(node *& root, int value, char * to_add, int owes);
+    int add_alp(node *& root, char * to_add, int owes);
+    int display(node * root, char * to_find, int ascii);
+    int display_alp(node * root, char * to_find);
+    int remove_all(node *& root);
+    int remove(node *& root, char * value, int ascii);//for ascii sorting
+    int remove_alp(node *& root, char * value);//for alphabetical sorting
+    node *& find_ios(node *& root, node *& temp);
+    node * root;
+
+};

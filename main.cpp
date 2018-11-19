@@ -1,19 +1,26 @@
-#include "ARR.h"
+//#include "ARR.h"
 //    OR
-//#include"BST.h"
+#include"BST.h"
 
 
 int main()
 {
-  int size = 0;
   char response;
   char name [20];
 
+  //using Hashtable
+  //Uncomment this if using hashtable.
+  /* 
+  int size = 0;
   cout<<"What is the size of the hash table? ";
   cin>> size;
   cin.ignore(5,'\n');
 
   hashtable table(size);
+  */
+
+  //Using BST
+  tree BST;
 
 
 
@@ -31,7 +38,13 @@ int main()
     cin.ignore(25, '\n');
 
     //catch return
+    /*
+     * Uncomment this if using hashtable
     int hold = table.display(name);
+
+    */
+    int hold = BST.display(name);
+
     
     //display returns 0 in wrapper if the array is NULL
     if(hold == 0)
@@ -47,6 +60,47 @@ int main()
     //otherwise, display already displayed our info, ask if we want to go again.
 
     cout<<"Would you like to search again? (Y/N) ";
+    cin>> response;
+    cin.ignore (5, '\n');
+
+  }while(response == 'Y' || response == 'y');
+
+
+  //NOW FOR REMOVALS
+  //
+  cout<<"Would you like to remove? ";
+  cin>>response;
+  cin.ignore(5,'\n');
+
+  do{
+    //obtain name 
+    cout<<"Name of user to remove: ";
+    cin.get(name, 25, '\n');
+    cin.ignore(25, '\n');
+
+    //catch return
+    /*
+     * Uncomment this if using hashtable
+    int hold = table.remove(name);
+
+    */
+    int hold = BST.remove(name);
+
+    
+    //display returns 0 in wrapper if the array is NULL
+    if(hold == 0)
+    {
+      cout<<"No table exists!" <<endl;
+      break;
+    }
+    //display return -1 if we reach the end of the LLL, meaning no match.
+    else if(hold == -1)
+    {
+      cout<<"Could not find user." <<endl;
+    }
+    //otherwise, display already displayed our info, ask if we want to go again.
+
+    cout<<"Would you like to remove again? (Y/N) ";
     cin>> response;
     cin.ignore (5, '\n');
 

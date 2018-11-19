@@ -80,6 +80,30 @@ int hashtable:: display(node * head, char * value)
 
 }
 
+int hashtable:: remove(char * value)
+{
+  if(!array)
+    return 0;
+  int i = hash(value);
+  return remove(array[i], value);
+}
+
+int hashtable:: remove(node *& head, char * value)
+{
+  if(!head)
+    return -1;
+
+  if(strcmp( value, head->data)==0)
+  {
+    node * temp = head->next;
+    delete [] head->data;
+    delete head;
+    head = temp;
+    return 1;
+  }
+  return remove(head->next, value);
+}
+
 int hashtable:: remove_all()
 {
   if(!array)
@@ -107,6 +131,7 @@ int hashtable:: remove_all(node *&head)
     return 0;
   int hold = remove_all(head->next)+1;
 
+  delete [] head->data;//dynamically allocated array for name
   delete head;
   head = NULL;
   return hold;
