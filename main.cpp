@@ -1,12 +1,14 @@
 //#include "ARR.h"
 //    OR
-#include"BST.h"
-
+#include "BST.h"
+#include <time.h> //used for timing
 
 int main()
 {
   char response;
   char name [20];
+  clock_t start, end;
+  double cpu_time_used;
 
   //using Hashtable
   //Uncomment this if using hashtable.
@@ -22,9 +24,13 @@ int main()
   //Using BST
   tree BST;
 
-
-
   //load should go here
+
+  start = clock();
+  cout << BST.load() << " nodes loaded.\n";
+  end = clock();
+  cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
+  cout << "BST load time: " << cpu_time_used << endl;
 
 
   cout<<"Would you like to search for a value? (Y/N) ";

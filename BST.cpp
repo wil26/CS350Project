@@ -9,8 +9,6 @@ node :: node(char * to_add, int owes, int ascii)
   owed = owes;
   left = NULL;
   right = NULL;
-
-
 }
 // USE IF WE DONT WANT TO STORE ALPHABETICALLY
 node ::node (char * to_add, int owes)
@@ -22,9 +20,6 @@ node ::node (char * to_add, int owes)
   left = NULL;
   right = NULL;
 }
-
-
-
 
 tree::tree()
 {
@@ -48,8 +43,34 @@ int tree::hash(char * value)
   return val;
 }
 
+int tree::load()
+{
+  ifstream file_in;
+  int count = 0;
+  file_in.open("../source.txt");
+  if(!file_in) {
+    cerr << "Unable to open file source.txt...";
+    return -1;
+  }
+  char temp_name[25];
+  int temp_owed = 0;
+  //while(file_in >> temp)
+  while(!file_in.eof())
+  {
+    ++count;
+    //file_in >> temp;
+    file_in.get(temp_name, 25, ':');
+    file_in.ignore(100, ':');
+    file_in >> temp_owed;
+    file_in.ignore(100, '\n');
+    //cout << temp_name << ", " << temp_owed << endl;
+    add(temp_name, temp_owed); //insert into tree
+  }
+  file_in.close();
+  return count;
+}
 
-int tree ::add(char * value, int owes)
+int tree::add(char * value, int owes)
 {
   //if we want to do this based on ascii values
   int hold = hash(value);
@@ -98,7 +119,19 @@ int tree::add_alp(node *& root, char * to_add, int owes)
     return add_alp(root->right, to_add, owes);
 }
 
+int tree::display_all()
+{
+  display_all(root);
+}
 
+int tree::display_all(node * root)
+{
+  if(!root)
+    return 0;
+  display_all(root->left);
+  root->display();
+  display_all(root->right);
+}
 
 int tree::display(char * to_find)
 {

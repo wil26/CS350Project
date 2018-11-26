@@ -2,12 +2,14 @@
 #include <iostream>
 #include <cctype>
 #include <cstring>
+#include <fstream>
 using namespace std;
 
 
 struct node{
   node(char * to_add, int owes, int ascii);//for ascii sorting
   node(char * to_add, int owes);//for alphabetical sorting
+  void display(){cout << "Name: " << data << ", Amount owed: $" << owed << endl;};
   node * left;
   node * right;
   char * data;//hold the name of the person
@@ -21,9 +23,11 @@ class tree
   public:
     tree();
     ~tree();
+    int load();
     int add(char * value, int owes);
     int add_alp(char * value, int owes);
     int hash(char * value);//if we choose to use this to get the ascii value of a word for insert
+    int display_all();
     int display(char * value);
     int display_alp(char * value);
     int remove_alp(char * value);
@@ -32,6 +36,7 @@ class tree
   private:
     int add(node *& root, int value, char * to_add, int owes);
     int add_alp(node *& root, char * to_add, int owes);
+    int display_all(node * root);
     int display(node * root, char * to_find, int ascii);
     int display_alp(node * root, char * to_find);
     int remove_all(node *& root);
