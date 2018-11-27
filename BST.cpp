@@ -193,9 +193,6 @@ int tree:: display_alp(node * root, char * to_find)
   }
 }
 
-
-
-
 int tree::remove_all(node *& root)
 {
   if(!root)
@@ -371,23 +368,35 @@ node *& tree:: find_ios(node *& root, node *& temp)
   return find_ios(root->left, temp);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+double tree::time_search()
+{
+  ifstream file_in;
+  int count = 0;
+  clock_t start, end;
+  double cpu_time_used;
+  file_in.open("../source.txt");
+  if(!file_in) {
+    cerr << "Unable to open file source.txt...\n";
+    return -1;
+  }
+  char temp_name[25];
+  int temp_owed = 0;
+  //while(file_in >> temp)
+  start = clock();
+  while(!file_in.eof())
+  {
+    ++count;
+    //file_in >> temp;
+    file_in.get(temp_name, 25, ':');
+    file_in.ignore(100, ':');
+    file_in >> temp_owed;
+    file_in.ignore(100, '\n');
+    //cout << temp_name << ", " << temp_owed << endl;
+    display(temp_name);
+  }
+  end = clock();
+  cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
+  file_in.close();
+  return cpu_time_used;
+}
 

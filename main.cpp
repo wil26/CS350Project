@@ -32,6 +32,10 @@ int main()
   cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
   cout << "BST load time: " << cpu_time_used << endl;
 
+  cout << "Testing search...\n";
+  double time_test = BST.time_search();
+  cout << "Search for all nodes took: " << time_test << " sec.\n";
+
 
   cout<<"Would you like to search for a value? (Y/N) ";
   cin>> response;

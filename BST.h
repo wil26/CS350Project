@@ -3,6 +3,7 @@
 #include <cctype>
 #include <cstring>
 #include <fstream>
+#include <time.h> //used for timing
 using namespace std;
 
 
@@ -16,7 +17,6 @@ struct node{
   int data_value;//holds data's ascii value if we use it.
   int owed;//holds amount owed
 };
-
 
 class tree
 {
@@ -32,6 +32,7 @@ class tree
     int display_alp(char * value);
     int remove_alp(char * value);
     int remove(char * value);
+    double time_search();
 
   private:
     int add(node *& root, int value, char * to_add, int owes);
@@ -44,5 +45,4 @@ class tree
     int remove_alp(node *& root, char * value);//for alphabetical sorting
     node *& find_ios(node *& root, node *& temp);
     node * root;
-
 };
