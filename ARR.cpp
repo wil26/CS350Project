@@ -5,7 +5,7 @@ hashtable::hashtable(int size)
 {
   hash_table_size = size;
 
-  array = new node * [hash_table_size];
+  array = new node_ARR * [hash_table_size];
 
   for(int i=0; i< hash_table_size; ++i)
   {
@@ -42,7 +42,7 @@ int hashtable:: add(char * to_add, int owes)
 {
   int place = hash(to_add);
 
-  node * temp = new node;
+  node_ARR * temp = new node_ARR;
   temp-> data = new char[strlen(to_add)+1];
   strcpy(temp->data, to_add);
   temp->owed = owes;
@@ -66,7 +66,7 @@ int hashtable:: display(char * value)
 }
 
 
-int hashtable:: display(node * head, char * value)
+int hashtable:: display(node_ARR * head, char * value)
 {
   if(!head)
     return -1;
@@ -88,14 +88,14 @@ int hashtable:: remove(char * value)
   return remove(array[i], value);
 }
 
-int hashtable:: remove(node *& head, char * value)
+int hashtable:: remove(node_ARR *& head, char * value)
 {
   if(!head)
     return -1;
 
   if(strcmp( value, head->data)==0)
   {
-    node * temp = head->next;
+    node_ARR * temp = head->next;
     delete [] head->data;
     delete head;
     head = temp;
@@ -114,7 +114,7 @@ int hashtable:: remove_all()
 
 }
 
-int hashtable:: remove_all(node ** array, int &index)
+int hashtable:: remove_all(node_ARR ** array, int &index)
 {
   if(index >= 0 && index < hash_table_size)
   {
@@ -125,7 +125,7 @@ int hashtable:: remove_all(node ** array, int &index)
 
 }
 
-int hashtable:: remove_all(node *&head)
+int hashtable:: remove_all(node_ARR *&head)
 {
   if(!head)
     return 0;
@@ -139,3 +139,33 @@ int hashtable:: remove_all(node *&head)
 }
 
 
+double hashtable::load(char * filename)
+{
+  ifstream file_in;
+  int count = 0;
+
+  remove_all();
+
+  //file_in.open("../large1.txt");
+  file_in.open(filename);
+  if(!file_in) {
+    cerr << "Unable to open file large1.txt...";
+    return -1;
+  }
+  char temp_name[25];
+  int temp_owed = 0;
+  //while(file_in >> temp)
+  while(!file_in.eof())
+  {
+    ++count;
+    //file_in >> temp;
+    file_in.get(temp_name, 25, ':');
+    file_in.ignore(100, ':');
+    file_in >> temp_owed;
+    file_in.ignore(100, '\n');
+    //cout << temp_name << ", " << temp_owed << endl;
+    add(temp_name, temp_owed); //insert into tree
+  }
+  file_in.close();
+  return count;
+}

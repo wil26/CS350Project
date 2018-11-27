@@ -5,8 +5,8 @@
 using namespace std;
 
 
-struct node{
-  node * next;
+struct node_CARR{
+  node_CARR * next;
   char * data;//name of person
   int owed;//money they owe
 };
@@ -29,6 +29,6 @@ class closedtable{
     
     //data members
     int hash_table_size;
-    node ** array;
+    node_CARR ** array;
 
 };

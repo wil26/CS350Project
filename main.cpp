@@ -1,6 +1,22 @@
-//#include "ARR.h"
-//    OR
+
+//Choose which data structure to use by commenting the
+//#define for the other structures
+#define BST_TEST
+//#define ARR_TEST
+//#define CARR_TEST
+
+//#ifdef BST_TEST
 #include "BST.h"
+//#endif
+
+//#ifdef ARR_TEST
+#include "ARR.h"
+//#endif
+//    OR
+//#ifdef CARR_TEST
+#include "CARR.h"
+//#endif
+
 #include <time.h> //used for timing
 
 int main()
@@ -12,30 +28,48 @@ int main()
 
   //using Hashtable
   //Uncomment this if using hashtable.
-  /* 
+#ifdef ARR_TEST
   int size = 0;
   cout<<"What is the size of the hash table? ";
   cin>> size;
   cin.ignore(5,'\n');
 
   hashtable table(size);
-  */
+#endif
 
   //Using BST
+#ifdef BST_TEST
   tree BST;
+#endif
 
   //load should go here
 
+  double time_test = 0.0;
   char filename[20];
+  char filename2[20];
   strcpy(filename, "../large1.txt");
+  strcpy(filename2, "../large2.txt");
   start = clock();
+#ifdef BST_TEST
   cout << BST.load(filename) << " nodes loaded.\n";
+#endif
   end = clock();
   cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
   cout << "BST load time: " << cpu_time_used << endl;
 
+  /*
+   * removal not working correctly. free() invalid pointer
+  cout << "Testing removal. Dataset: " << filename2 << endl;
+#ifdef BST_TEST
+  time_test = BST.time_remove(filename2);
+   #endif
+  cout << "Removal for all nodes took: " << time_test << " sec.\n";
+  */
+
   cout << "Testing search...\n";
-  double time_test = BST.time_search(filename);
+#ifdef BST_TEST
+  time_test = BST.time_search(filename);
+#endif
   cout << "Search for all nodes took: " << time_test << " sec.\n";
 
 
@@ -44,7 +78,8 @@ int main()
   cin.ignore (5, '\n');
 
   do{
-    //obtain name 
+    int hold = 0;
+    //obtain name
     cout<<"Name of user to find: ";
     cin.get(name, 25, '\n');
     cin.ignore(25, '\n');
@@ -52,12 +87,15 @@ int main()
     //catch return
     /*
      * Uncomment this if using hashtable
-    int hold = table.display(name);
+     */
+#ifdef ARR_TEST
+    hold = table.display(name);
+#endif
 
-    */
-    int hold = BST.display(name);
+#ifdef BST_TEST
+    hold = BST.display(name);
+#endif
 
-    
     //display returns 0 in wrapper if the array is NULL
     if(hold == 0)
     {
@@ -85,7 +123,8 @@ int main()
   cin.ignore(5,'\n');
 
   do{
-    //obtain name 
+    //obtain name
+    int hold = 0;
     cout<<"Name of user to remove: ";
     cin.get(name, 25, '\n');
     cin.ignore(25, '\n');
@@ -93,12 +132,15 @@ int main()
     //catch return
     /*
      * Uncomment this if using hashtable
-    int hold = table.remove(name);
-
     */
-    int hold = BST.remove(name);
+#ifdef ARR_TEST
+    hold = table.remove(name);
+#endif
 
-    
+#ifdef BST_TEST
+    hold = BST.remove(name);
+#endif
+
     //display returns 0 in wrapper if the array is NULL
     if(hold == 0)
     {
@@ -117,8 +159,7 @@ int main()
     cin.ignore (5, '\n');
 
   }while(response == 'Y' || response == 'y');
-
-
-
   return 0;
 }
+
+

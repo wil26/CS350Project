@@ -34,6 +34,7 @@ class tree
     int remove_alp(char * value);
     int remove(char * value);
     double time_search(char * filename);
+    double time_remove(char * filename);
 
   private:
     int add(node *& root, int value, char * to_add, int owes);

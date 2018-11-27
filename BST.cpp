@@ -54,6 +54,10 @@ int tree::load(char * filename)
 {
   ifstream file_in;
   int count = 0;
+
+  if(root) //remove all if tree already exists
+    remove_all(root);
+
   //file_in.open("../large1.txt");
   file_in.open(filename);
   if(!file_in) {
@@ -243,7 +247,7 @@ int tree::remove(node *& root, char * value, int ascii)
         // if hold is null, its just like deleting a no child item.
 
         node * hold = root->right;
-        delete [] root->data;
+        //delete [] root->data;
         delete root;
         root = hold;
         return 1;
@@ -251,7 +255,7 @@ int tree::remove(node *& root, char * value, int ascii)
       else if(!root->right)//would only get to this if root->left EXISTS, but root->right does not.
       {
         node * hold = root->left;
-        delete [] root->data;
+        //delete [] root->data;
         delete root;
         root = hold;
         return 1;
@@ -261,7 +265,7 @@ int tree::remove(node *& root, char * value, int ascii)
         //find the IOS
         node * IOS = find_ios(root->right, root->right);
         //delete the array currently in root, set it to name stored in IOS
-        delete [] root->data;
+        //delete [] root->data;
         root->data = new char[strlen(IOS->data)+1];
         strcpy(root->data, IOS->data);
 
@@ -270,7 +274,7 @@ int tree::remove(node *& root, char * value, int ascii)
         root->owed = IOS->owed;
         
         //delete the IOS
-        delete [] IOS;
+        //delete [] IOS;
         delete IOS;
         IOS = NULL;
         return 1;
@@ -409,3 +413,36 @@ double tree::time_search(char * filename)
   return cpu_time_used;
 }
 
+double tree::time_remove(char * filename)
+{
+   ifstream file_in;
+  int count = 0;
+  clock_t start, end;
+  double cpu_time_used;
+  //file_in.open("../large1.txt");
+  file_in.open(filename);
+  if(!file_in) {
+    cerr << "Unable to open file large1.txt...\n";
+    return -1;
+  }
+  char temp_name[25];
+  int temp_owed = 0;
+  //while(file_in >> temp)
+  start = clock();
+  while(!file_in.eof())
+  {
+    ++count;
+    //file_in >> temp;
+    file_in.get(temp_name, 25, ':');
+    file_in.ignore(100, ':');
+    file_in >> temp_owed;
+    file_in.ignore(100, '\n');
+    //cout << temp_name << ", " << temp_owed << endl;
+    cout << "Removing: " << temp_name << endl;
+    remove(temp_name);
+  }
+  end = clock();
+  cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
+  file_in.close();
+  return cpu_time_used;
+}

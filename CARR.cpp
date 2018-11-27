@@ -6,7 +6,7 @@ closedtable::closedtable(int size)
 {
   hash_table_size = size;
 
-  array = new node *[hash_table_size];
+  array = new node_CARR *[hash_table_size];
 
   for(int i=0; i< hash_table_size; ++i)
   {
@@ -40,7 +40,7 @@ int closedtable:: add(char * to_add, int owes)
 
   if(array[place] == NULL)
   {
-    array[place] = new node;
+    array[place] = new node_CARR;
     array[place]->data = new char [strlen(to_add)+1];
     strcpy(array[place]->data, to_add);
     array[place]->owed = owes;
@@ -54,7 +54,7 @@ int closedtable:: add(char * to_add, int owes)
     {
       if(array[place] == NULL)
       {
-        array[place] = new node;
+        array[place] = new node_CARR;
         array[place]->data = new char [strlen(to_add)+1];
         strcpy(array[place]->data, to_add);
         array[place]->owed = owes;
@@ -70,7 +70,7 @@ int closedtable:: add(char * to_add, int owes)
       {
         if(array[place] == NULL)
         {
-          array[place] = new node;
+          array[place] = new node_CARR;
           array[place]->data = new char [strlen(to_add)+1];
           strcpy(array[place]->data, to_add);
           array[place]->owed = owes;
