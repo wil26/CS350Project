@@ -16,6 +16,7 @@ struct node{
   char * data;//hold the name of the person
   int data_value;//holds data's ascii value if we use it.
   int owed;//holds amount owed
+  ~node(); //default destructor
 };
 
 class tree

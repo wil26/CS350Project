@@ -21,6 +21,13 @@ node ::node (char * to_add, int owes)
   right = NULL;
 }
 
+node::~node()
+{
+  if(data)
+    delete [] data;
+  data_value = 0;
+}
+
 tree::tree()
 {
   root= NULL;
@@ -47,9 +54,9 @@ int tree::load()
 {
   ifstream file_in;
   int count = 0;
-  file_in.open("../source.txt");
+  file_in.open("../large1.txt");
   if(!file_in) {
-    cerr << "Unable to open file source.txt...";
+    cerr << "Unable to open file large1.txt...";
     return -1;
   }
   char temp_name[25];
@@ -374,9 +381,9 @@ double tree::time_search()
   int count = 0;
   clock_t start, end;
   double cpu_time_used;
-  file_in.open("../source.txt");
+  file_in.open("../large1.txt");
   if(!file_in) {
-    cerr << "Unable to open file source.txt...\n";
+    cerr << "Unable to open file large1.txt...\n";
     return -1;
   }
   char temp_name[25];
