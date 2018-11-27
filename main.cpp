@@ -26,14 +26,16 @@ int main()
 
   //load should go here
 
+  char filename[20];
+  strcpy(filename, "../large1.txt");
   start = clock();
-  cout << BST.load() << " nodes loaded.\n";
+  cout << BST.load(filename) << " nodes loaded.\n";
   end = clock();
   cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
   cout << "BST load time: " << cpu_time_used << endl;
 
   cout << "Testing search...\n";
-  double time_test = BST.time_search();
+  double time_test = BST.time_search(filename);
   cout << "Search for all nodes took: " << time_test << " sec.\n";
 
 
