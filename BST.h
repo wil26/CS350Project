@@ -16,6 +16,7 @@ struct node{
   char * data;//hold the name of the person
   int data_value;//holds data's ascii value if we use it.
   int owed;//holds amount owed
+  ~node(); //default destructor
 };
 
 class tree
@@ -23,7 +24,7 @@ class tree
   public:
     tree();
     ~tree();
-    int load();
+    int load(char * filename);
     int add(char * value, int owes);
     int add_alp(char * value, int owes);
     int hash(char * value);//if we choose to use this to get the ascii value of a word for insert
@@ -32,7 +33,7 @@ class tree
     int display_alp(char * value);
     int remove_alp(char * value);
     int remove(char * value);
-    double time_search();
+    double time_search(char * filename);
 
   private:
     int add(node *& root, int value, char * to_add, int owes);

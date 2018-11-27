@@ -21,6 +21,13 @@ node ::node (char * to_add, int owes)
   right = NULL;
 }
 
+node::~node()
+{
+  if(data)
+    delete [] data;
+  data_value = 0;
+}
+
 tree::tree()
 {
   root= NULL;
@@ -43,13 +50,14 @@ int tree::hash(char * value)
   return val;
 }
 
-int tree::load()
+int tree::load(char * filename)
 {
   ifstream file_in;
   int count = 0;
-  file_in.open("../source.txt");
+  //file_in.open("../large1.txt");
+  file_in.open(filename);
   if(!file_in) {
-    cerr << "Unable to open file source.txt...";
+    cerr << "Unable to open file large1.txt...";
     return -1;
   }
   char temp_name[25];
@@ -368,15 +376,16 @@ node *& tree:: find_ios(node *& root, node *& temp)
   return find_ios(root->left, temp);
 }
 
-double tree::time_search()
+double tree::time_search(char * filename)
 {
   ifstream file_in;
   int count = 0;
   clock_t start, end;
   double cpu_time_used;
-  file_in.open("../source.txt");
+  //file_in.open("../large1.txt");
+  file_in.open(filename);
   if(!file_in) {
-    cerr << "Unable to open file source.txt...\n";
+    cerr << "Unable to open file large1.txt...\n";
     return -1;
   }
   char temp_name[25];
