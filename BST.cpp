@@ -121,7 +121,7 @@ int tree::add_alp(node *& root, char * to_add, int owes)
 
 int tree::display_all()
 {
-  display_all(root);
+  return display_all(root);
 }
 
 int tree::display_all(node * root)
