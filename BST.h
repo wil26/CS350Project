@@ -49,6 +49,6 @@ class tree
     int remove_all(node *& root);
     int remove(node *& root, char * value, int ascii);//for ascii sorting
     int remove_alp(node *& root, char * value);//for alphabetical sorting
-    node *& find_ios(node *& root, node *& temp);
+    int find_ios(node *& root, node *& temp);
     node * root;
 };

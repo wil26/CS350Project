@@ -52,13 +52,13 @@ int closedtable:: add(char * to_add, int owes)
 
     for(int i = place +1; i<hash_table_size && added ==0; ++i)
     {
-      if(array[place] == NULL)
+      if(array[i] == NULL)
       {
-        array[place] = new node_CARR;
-        array[place]->data = new char [strlen(to_add)+1];
-        strcpy(array[place]->data, to_add);
-        array[place]->owed = owes;
-        array[place]->next = NULL;
+        array[i] = new node_CARR;
+        array[i]->data = new char [strlen(to_add)+1];
+        strcpy(array[i]->data, to_add);
+        array[i]->owed = owes;
+        array[i]->next = NULL;
         added = 1;
       }
     }
@@ -68,13 +68,13 @@ int closedtable:: add(char * to_add, int owes)
     {
       for(int i=0; i < place && added ==0; ++i)
       {
-        if(array[place] == NULL)
+        if(array[i] == NULL)
         {
-          array[place] = new node_CARR;
-          array[place]->data = new char [strlen(to_add)+1];
-          strcpy(array[place]->data, to_add);
-          array[place]->owed = owes;
-          array[place]->next = NULL;
+          array[i] = new node_CARR;
+          array[i]->data = new char [strlen(to_add)+1];
+          strcpy(array[i]->data, to_add);
+          array[i]->owed = owes;
+          array[i]->next = NULL;
           added = 1;
         }
       }
@@ -87,6 +87,18 @@ int closedtable:: add(char * to_add, int owes)
   }
 }
 
+int closedtable::display_all()
+{
+  for(int i =0; i<hash_table_size; ++i)
+  {
+    if(array[i]!= NULL)
+    {
+      cout<<"User: " <<array[i]->data<<endl;
+      cout<<"Owed: "<<array[i]->owed<<endl;
+    }
+  }
+  return 1;
+}
 
 int closedtable:: display(char * value)
 {
@@ -156,9 +168,12 @@ int closedtable:: remove(char * value)
   {
     if(array[j] != NULL)
     {
-      if(strcmp(value, array[j]->data)==0)
+      if(strcmp(value, array[j]->data) == 0)
       {
         cout<<" Owed: "<<array[j]->data<<endl;
+        delete [] array[j]->data;
+        delete array[j];
+        array[j] = NULL;
         found = 1;
       }
     }
@@ -173,6 +188,9 @@ int closedtable:: remove(char * value)
         if(strcmp(value, array[j]->data)==0)
         {
           cout<<" Owed: "<<array[j]->data<<endl;
+          delete [] array[j]->data;
+          delete array[j];
+          array[j] = NULL;
           found = 1;
         }
       }

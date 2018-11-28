@@ -24,6 +24,7 @@ class closedtable{
     int remove(char * value);
     int add(char * to_add, int owes);//for addition to LLL
     int load(char * filename);
+    int display_all();
     double time_search(char * filename);
     double time_remove(char * filename);
 

@@ -304,9 +304,9 @@ int tree::remove(node *& root, char * value, int ascii)
       else//we have two children, we need to find the IOS
       {
         //find the IOS
-        node * IOS = find_ios(root->right, root->right);
+        int IOS = find_ios(root->right, root);
         //delete the array currently in root, set it to name stored in IOS
-        if(root->data)
+       /* if(root->data)
           delete [] root->data;
         root->data = NULL;
         root->data = new char[strlen(IOS->data)+1];
@@ -314,13 +314,16 @@ int tree::remove(node *& root, char * value, int ascii)
 
         //set roots other data items to IOS' data items, theoretically "removing" root
         root->data_value = IOS->data_value;
-        root->owed = IOS->owed;
+        root->owed = IOS->owed;*/
         
         //delete the IOS
         //delete [] IOS;
-        if(IOS)
+       /* if(IOS)
           delete IOS;
-        IOS = NULL;
+        IOS = NULL;*/
+        if(!IOS)
+          return 0;
+
         return 1;
       }
 
@@ -378,9 +381,9 @@ int tree::remove_alp(node *& root, char * value)
       else//we have two children, we need to find the IOS
       {
         //find the IOS
-        node * IOS = find_ios(root->right,root->right);
+        int IOS = find_ios(root->right,root->right);
         //delete the array currently in root, set it to name stored in IOS
-        delete [] root->data;
+        /*delete [] root->data;
         root->data = new char[strlen(IOS->data)+1];
         strcpy(root->data, IOS->data);
 
@@ -391,7 +394,10 @@ int tree::remove_alp(node *& root, char * value)
         //delete the IOS
         //delete [] IOS;
         delete IOS;
-        IOS = NULL;
+        IOS = NULL;*/
+        if(!IOS)
+          return 0;
+        
         return 1;
       }
 
@@ -403,20 +409,38 @@ int tree::remove_alp(node *& root, char * value)
 
 
 
-node *& tree:: find_ios(node *& root, node *& temp)
+int tree:: find_ios(node *& root, node *& temp)
 {
   //check if we're all the way left
   if(!root->left)
   {
     //make sure we don't have a right.
     if(!root->right)
-      return root;
+    {
+      delete [] temp->data;
+      temp->owed = root->owed;
+      temp->data = new char[strlen(root->data)+1];
+      //delete [] root->data;
+      delete root;
+      root = NULL;
+      return 1;
+    }
+      
     else
     {
-      //we have a right, so update root to point to it, and return the original root.
-      temp = root;
+      delete [] temp->data;
+      temp->owed = root->owed;
+      temp->data = new char[strlen(root->data)+1];
+      node * hold = root;
       root = root->right;
-      return temp;
+     // delete [] hold->data;
+      delete hold;
+      hold = NULL;
+      return 1;
+      //we have a right, so update root to point to it, and return the original root.
+      /*temp = root;
+      root = root->right;
+      return temp;*/
     }
   }
   return find_ios(root->left, temp);
