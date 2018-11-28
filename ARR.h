@@ -24,9 +24,9 @@ class hashtable{
     int remove_all();
     int remove(char * value);
     int add(char * to_add, int owes);//for addition to LLL
-    double load(char * filename);
-
-
+    int load(char * filename);
+    double time_search(char * filename);
+    double time_remove(char * filename);
 
   private:
     int display(node_ARR * head, char * value);

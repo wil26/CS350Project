@@ -4,19 +4,20 @@
 #include <cstring>
 #include <fstream>
 #include <time.h> //used for timing
-using namespace std;
 
+using namespace std;
 
 struct node{
   node(char * to_add, int owes, int ascii);//for ascii sorting
   node(char * to_add, int owes);//for alphabetical sorting
+  node();
+  ~node(); //default destructor
   void display(){cout << "Name: " << data << ", Amount owed: $" << owed << endl;};
   node * left;
   node * right;
   char * data;//hold the name of the person
   int data_value;//holds data's ascii value if we use it.
   int owed;//holds amount owed
-  ~node(); //default destructor
 };
 
 class tree
@@ -30,9 +31,11 @@ class tree
     int hash(char * value);//if we choose to use this to get the ascii value of a word for insert
     int display_all();
     int display(char * value);
+    int display2(char * value);
     int display_alp(char * value);
     int remove_alp(char * value);
     int remove(char * value);
+    int remove_all();
     double time_search(char * filename);
     double time_remove(char * filename);
 
@@ -41,6 +44,7 @@ class tree
     int add_alp(node *& root, char * to_add, int owes);
     int display_all(node * root);
     int display(node * root, char * to_find, int ascii);
+    int display2(node * root, char * to_find, int ascii);
     int display_alp(node * root, char * to_find);
     int remove_all(node *& root);
     int remove(node *& root, char * value, int ascii);//for ascii sorting

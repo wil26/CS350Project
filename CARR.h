@@ -2,8 +2,9 @@
 #include <iostream>
 #include <cstring>
 #include <cctype>
+#include <fstream>
+#include <time.h> //used for timing
 using namespace std;
-
 
 struct node_CARR{
   node_CARR * next;
@@ -22,8 +23,9 @@ class closedtable{
     int remove_all();
     int remove(char * value);
     int add(char * to_add, int owes);//for addition to LLL
-
-
+    int load(char * filename);
+    double time_search(char * filename);
+    double time_remove(char * filename);
 
   private:
     
@@ -32,3 +34,4 @@ class closedtable{
     node_CARR ** array;
 
 };
+

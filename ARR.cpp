@@ -138,8 +138,7 @@ int hashtable:: remove_all(node_ARR *&head)
 
 }
 
-
-double hashtable::load(char * filename)
+int hashtable::load(char * filename)
 {
   ifstream file_in;
   int count = 0;
@@ -149,7 +148,7 @@ double hashtable::load(char * filename)
   //file_in.open("../large1.txt");
   file_in.open(filename);
   if(!file_in) {
-    cerr << "Unable to open file large1.txt...";
+    cerr << "Unable to open file " << filename << endl;
     return -1;
   }
   char temp_name[25];
@@ -168,4 +167,70 @@ double hashtable::load(char * filename)
   }
   file_in.close();
   return count;
+}
+double hashtable::time_search(char * filename)
+{
+  ifstream file_in;
+  int count = 0;
+  clock_t start, end;
+  double cpu_time_used;
+  //file_in.open("../large1.txt");
+  file_in.open(filename);
+  if(!file_in) {
+    cerr << "Unable to open file large1.txt...\n";
+    return -1;
+  }
+  char temp_name[25];
+  int temp_owed = 0;
+  //while(file_in >> temp)
+  start = clock();
+  while(!file_in.eof())
+  {
+    ++count;
+    //file_in >> temp;
+    file_in.get(temp_name, 25, ':');
+    file_in.ignore(100, ':');
+    file_in >> temp_owed;
+    file_in.ignore(100, '\n');
+    //cout << temp_name << ", " << temp_owed << endl;
+    display(temp_name);
+  }
+  end = clock();
+  cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
+  file_in.close();
+  return cpu_time_used;
+}
+
+double hashtable::time_remove(char * filename)
+{
+   ifstream file_in;
+  int count = 0;
+  clock_t start, end;
+  double cpu_time_used;
+  //file_in.open("../large1.txt");
+  file_in.open(filename);
+  if(!file_in) {
+    cerr << "Unable to open file large1.txt...\n";
+    return -1;
+  }
+  char temp_name[25];
+  int temp_owed = 0;
+  //while(file_in >> temp)
+  start = clock();
+  while(!file_in.eof())
+  {
+    ++count;
+    //file_in >> temp;
+    file_in.get(temp_name, 25, ':');
+    file_in.ignore(100, ':');
+    file_in >> temp_owed;
+    file_in.ignore(100, '\n');
+    //cout << temp_name << ", " << temp_owed << endl;
+    cout << "Removing: " << temp_name << endl;
+    remove(temp_name);
+  }
+  end = clock();
+  cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
+  file_in.close();
+  return cpu_time_used;
 }

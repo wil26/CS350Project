@@ -1,5 +1,7 @@
 #include "BST.h"
 
+node::node() : data(NULL), data_value(0), left(NULL), right(NULL) {}
+
 node :: node(char * to_add, int owes, int ascii)
 {
   data = new char[strlen(to_add)+1];
@@ -25,7 +27,9 @@ node::~node()
 {
   if(data)
     delete [] data;
+  data = NULL;
   data_value = 0;
+  owed = 0;
 }
 
 tree::tree()
@@ -61,7 +65,7 @@ int tree::load(char * filename)
   //file_in.open("../large1.txt");
   file_in.open(filename);
   if(!file_in) {
-    cerr << "Unable to open file large1.txt...";
+    cerr << "Unable to open file " << filename << endl;
     return -1;
   }
   char temp_name[25];
@@ -133,6 +137,11 @@ int tree::add_alp(node *& root, char * to_add, int owes)
 
 int tree::display_all()
 {
+  if(!root)
+  {
+    cout << "\nEmpty Tree!\n";
+    return -1;
+  }
   return display_all(root);
 }
 
@@ -173,6 +182,37 @@ int tree::display(node * root, char * to_find, int ascii)
     }
     else//otherwise go right, as the IOS will be in the right subtree.
       return display(root->right, to_find, ascii);
+  }
+}
+
+int tree::display2(char * to_find)
+{
+  if(!root)
+    return 0;
+  int ascii = hash(to_find);
+  return display2(root, to_find, ascii);
+}
+
+int tree::display2(node * root, char * to_find, int ascii)
+{
+  //we reached the end so the value does not exist.
+  if(!root)
+    return -1;
+
+  if(root->data_value > ascii)//if roots value is greater, go left.
+    return display2(root->left, to_find, ascii);
+  else if(root->data_value < ascii)//if roots value is lesser, go right.
+    return display2(root->right, to_find, ascii);
+  else if(root->data_value == ascii)//otherwise they have the same ascii value
+  {
+    //still must check if it is the same word, as multiple words can have the same ascii value.
+    if(strcmp(root->data, to_find) ==0)
+    {
+      //cout<<"Amount Owed: "<<root->owed <<endl;
+      return 1;
+    }
+    else//otherwise go right, as the IOS will be in the right subtree.
+      return display2(root->right, to_find, ascii);
   }
 }
 
@@ -238,7 +278,7 @@ int tree::remove(node *& root, char * value, int ascii)
   else if(root->data_value < ascii)//if its greater than root go right
     return remove(root->right, value, ascii);
   else if(root->data_value == ascii){//if they are equal, still strcmp to make sure they match, if so, remove.
-    if(strcmp(root->data, value) ==0){
+    if(strcmp(root->data, value) == 0){
 
       //we have found a match! now check if we only have one child. if we do, update it to be the new root.
       if(!root->left)
@@ -247,7 +287,8 @@ int tree::remove(node *& root, char * value, int ascii)
         // if hold is null, its just like deleting a no child item.
 
         node * hold = root->right;
-        //delete [] root->data;
+        //if(root->data)
+          //delete [] root->data;
         delete root;
         root = hold;
         return 1;
@@ -265,7 +306,9 @@ int tree::remove(node *& root, char * value, int ascii)
         //find the IOS
         node * IOS = find_ios(root->right, root->right);
         //delete the array currently in root, set it to name stored in IOS
-        //delete [] root->data;
+        if(root->data)
+          delete [] root->data;
+        root->data = NULL;
         root->data = new char[strlen(IOS->data)+1];
         strcpy(root->data, IOS->data);
 
@@ -275,7 +318,8 @@ int tree::remove(node *& root, char * value, int ascii)
         
         //delete the IOS
         //delete [] IOS;
-        delete IOS;
+        if(IOS)
+          delete IOS;
         IOS = NULL;
         return 1;
       }
@@ -284,8 +328,6 @@ int tree::remove(node *& root, char * value, int ascii)
     else//otherwise go right as IOS will be toward right
       return remove(root->right, value, ascii);
   }
-
-
 }
 
 
@@ -347,7 +389,7 @@ int tree::remove_alp(node *& root, char * value)
         root->owed = IOS->owed;
         
         //delete the IOS
-        delete [] IOS;
+        //delete [] IOS;
         delete IOS;
         IOS = NULL;
         return 1;
@@ -366,7 +408,7 @@ node *& tree:: find_ios(node *& root, node *& temp)
   //check if we're all the way left
   if(!root->left)
   {
-    //make sure we dont have a right.
+    //make sure we don't have a right.
     if(!root->right)
       return root;
     else
@@ -405,7 +447,7 @@ double tree::time_search(char * filename)
     file_in >> temp_owed;
     file_in.ignore(100, '\n');
     //cout << temp_name << ", " << temp_owed << endl;
-    display(temp_name);
+    display2(temp_name);
   }
   end = clock();
   cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
@@ -445,4 +487,9 @@ double tree::time_remove(char * filename)
   cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
   file_in.close();
   return cpu_time_used;
+}
+
+int tree::remove_all()
+{
+  return remove_all(root);
 }
