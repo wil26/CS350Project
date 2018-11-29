@@ -111,7 +111,8 @@ int closedtable:: display(char * value)
     {
       if(strcmp(value, array[j]->data)==0)
       {
-        cout<<" Owed: "<<array[j]->data<<endl;
+        //cout<<" Owed: "<<array[j]->data<<endl;
+        cout<<" Owed: "<<array[j]->owed<<endl;
         found = 1;
       }
     }
@@ -125,7 +126,8 @@ int closedtable:: display(char * value)
       {
         if(strcmp(value, array[j]->data)==0)
         {
-          cout<<" Owed: "<<array[j]->data<<endl;
+          //cout<<" Owed: "<<array[j]->data<<endl;
+          cout<<" Owed: "<<array[j]->owed<<endl;
           found = 1;
         }
       }
@@ -133,6 +135,46 @@ int closedtable:: display(char * value)
     }
   }
   //for loop in if !found case may have added, so we now can check.otherwise, we were either found in first half and got here. 
+  if(found)
+    return 1;
+  else//still not found after checking first half
+    return -1;//not found anywhere
+
+}
+
+int closedtable:: display2(char * value)
+{
+  int i = hash(value);
+  int found = 0;
+
+  for(int j = i; j < hash_table_size && found ==0; ++j)
+  {
+    if(array[j] != NULL)
+    {
+      if(strcmp(value, array[j]->data)==0)
+      {
+        //cout<<" Owed: "<<array[j]->data<<endl;
+        found = 1;
+      }
+    }
+  }
+//if its still not found after checkin to the end of the array, check first half
+  if(!found)
+  {
+    for(int j =0; j< i && found ==0; ++j)
+    {
+      if(array[j] != NULL)
+      {
+        if(strcmp(value, array[j]->data)==0)
+        {
+          //cout<<" Owed: "<<array[j]->data<<endl;
+          found = 1;
+        }
+      }
+
+    }
+  }
+  //for loop in if !found case may have added, so we now can check.otherwise, we were either found in first half and got here.
   if(found)
     return 1;
   else//still not found after checking first half
@@ -260,7 +302,7 @@ double closedtable::time_search(char * filename)
     file_in >> temp_owed;
     file_in.ignore(100, '\n');
     //cout << temp_name << ", " << temp_owed << endl;
-    display(temp_name);
+    display2(temp_name);
   }
   end = clock();
   cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;

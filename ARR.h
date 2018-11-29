@@ -21,6 +21,7 @@ class hashtable{
     //wrappers
     int hash(char * value);
     int display(char * value);
+    int display2(char * value);
     int remove_all();
     int remove(char * value);
     int add(char * to_add, int owes);//for addition to LLL
@@ -30,6 +31,7 @@ class hashtable{
 
   private:
     int display(node_ARR * head, char * value);
+    int display2(node_ARR * head, char * value);
     int remove_all(node_ARR ** array, int & index);
     int remove_all(node_ARR *&head);
     int remove(node_ARR *&head, char * value);

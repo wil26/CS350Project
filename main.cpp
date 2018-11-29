@@ -2,8 +2,8 @@
 //Choose which data structure to use by commenting the
 //#define for the other structures
 //#define BST_TEST
-//#define ARR_TEST
-#define CARR_TEST
+#define ARR_TEST
+//#define CARR_TEST
 
 //#define REMOVAL //comment if you don't want to test removal
 
@@ -13,7 +13,7 @@
 
 #include <time.h> //used for timing
 
-const int NUM_FILES = 3; //number of test files (pairs)
+const int NUM_FILES = 5; //number of test files (pairs)
 
 int main()
 {
@@ -30,22 +30,22 @@ int main()
 
   //using Hashtable
 #ifdef ARR_TEST
-  int size = 0;
+  int size_table = 0;
   cout<<"What is the size of the hash table? ";
-  cin>> size;
+  cin>> size_table;
   cin.ignore(5,'\n');
 
-  hashtable table(size);
+  hashtable table(size_table);
 #endif
 
   //using closed Hashtable
 #ifdef CARR_TEST
-  int size = 0;
+  int size_ctable = 0;
   cout<<"What is the size of the closed hash table? ";
-  cin>> size;
+  cin>> size_ctable;
   cin.ignore(5,'\n');
 
-  closedtable ctable(size);
+  closedtable ctable(size_ctable);
 #endif
 
   char filenames[NUM_FILES][25];
@@ -55,17 +55,25 @@ int main()
     switch (i)
     {
       case 0:
-        strcpy(filenames[0], "5000.txt");
-        strcpy(filenames2[0], "5000_2.txt");
+        strcpy(filenames[0], "../5000.txt");
+        strcpy(filenames2[0], "../5000_2.txt");
         break;
       case 1:
-        strcpy(filenames[1], "10000.txt");
-        strcpy(filenames2[1], "10000_2.txt");
+        strcpy(filenames[1], "../10000.txt");
+        strcpy(filenames2[1], "../10000_2.txt");
         break;
       case 2:
-        strcpy(filenames[2], "large1.txt");
-        strcpy(filenames2[2], "large2.txt");
+        strcpy(filenames[2], "../large1.txt");
+        strcpy(filenames2[2], "../large2.txt");
         break;
+      case 3:
+        strcpy(filenames[3], "../100000_1.txt");
+        strcpy(filenames2[3], "../100000_2.txt");
+        break;
+      case 4:
+          strcpy(filenames[4], "../200000_1.txt");
+          strcpy(filenames2[4], "../200000_2.txt");
+          break;
     }
   }
 
@@ -83,18 +91,22 @@ int main()
 
 #ifdef ARR_TEST
     start = clock();
-    cout << table.load(filenames[i]) << " nodes loaded.\n";
+    int num_nodes_ARR = table.load(filenames[i]);
+    cout << "\n--------------------" << num_nodes_ARR << " nodes --------------------\n";
     end = clock();
-    cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
-    cout << "Hash table load time: " << cpu_time_used << endl;
+    //cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
+    //cout << "\nstart ticks: " << start << " , end ticks: " << end << endl;
+    cpu_time_used = ((double)(end - start))/CLOCKS_PER_SEC;
+    cout << "Hash table: Inserting " << num_nodes_ARR << " nodes time: " << cpu_time_used << endl;
 #endif
 
 #ifdef CARR_TEST
     start = clock();
-    cout << ctable.load(filenames[i]) << " nodes loaded.\n";
+    int num_nodes_CARR = ctable.load(filenames[i]);
+    cout << "\n--------------------" << num_nodes_CARR << " nodes --------------------\n";
     end = clock();
     cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-    cout << "Closed Hash table load time: " << cpu_time_used << endl;
+    cout << "Hash table: Inserting " << num_nodes_CARR << " nodes time: " << cpu_time_used << endl;
 #endif
 
     //SEARCH TEST

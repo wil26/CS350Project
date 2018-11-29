@@ -77,7 +77,29 @@ int hashtable:: display(node_ARR * head, char * value)
     return 1;
   }
   return display(head->next, value);
+}
 
+int hashtable:: display2(char * value)
+{
+  if(!array)
+    return 0;
+
+  int place = hash(value);
+
+  return display2(array[place], value);
+}
+
+int hashtable:: display2(node_ARR * head, char * value)
+{
+  if(!head)
+    return -1;
+
+  if(strcmp(value, head->data) ==0)
+  {
+    //cout<<"Amount Owed: "<< head->owed<<endl;
+    return 1;
+  }
+  return display2(head->next, value);
 }
 
 int hashtable:: remove(char * value)
@@ -135,7 +157,6 @@ int hashtable:: remove_all(node_ARR *&head)
   delete head;
   head = NULL;
   return hold;
-
 }
 
 int hashtable::load(char * filename)
@@ -193,7 +214,7 @@ double hashtable::time_search(char * filename)
     file_in >> temp_owed;
     file_in.ignore(100, '\n');
     //cout << temp_name << ", " << temp_owed << endl;
-    display(temp_name);
+    display2(temp_name);
   }
   end = clock();
   cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
