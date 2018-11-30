@@ -12,12 +12,11 @@ closedtable::closedtable(int size)
   {
     array[i]=NULL;
   }
-
 }
 
 closedtable::~closedtable()
 {
-
+  remove_all();
 }
 
 int closedtable:: hash(char * value)
@@ -29,7 +28,6 @@ int closedtable:: hash(char * value)
   {
     size += value[i];
   }
-
   return size % hash_table_size;
 }
 
@@ -83,7 +81,6 @@ int closedtable:: add(char * to_add, int owes)
       return 1;
     else 
       return -1;//table is full!!
-
   }
 }
 
@@ -179,7 +176,6 @@ int closedtable:: display2(char * value)
     return 1;
   else//still not found after checking first half
     return -1;//not found anywhere
-
 }
 
 int closedtable:: remove_all()
@@ -281,6 +277,7 @@ double closedtable::time_search(char * filename)
 {
   ifstream file_in;
   int count = 0;
+  int miss = 0;
   clock_t start, end;
   double cpu_time_used;
   //file_in.open("../large1.txt");
@@ -302,9 +299,11 @@ double closedtable::time_search(char * filename)
     file_in >> temp_owed;
     file_in.ignore(100, '\n');
     //cout << temp_name << ", " << temp_owed << endl;
-    display2(temp_name);
+    if(display2(temp_name) == -1)
+      ++miss;
   }
   end = clock();
+  cout << "number of misses: " << miss << endl;
   cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
   file_in.close();
   return cpu_time_used;

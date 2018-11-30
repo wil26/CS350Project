@@ -11,15 +11,12 @@ hashtable::hashtable(int size)
   {
     array[i]=NULL;
   }
-
 }
 
 hashtable::~hashtable(){
-
   remove_all();
   delete [] array;
 }
-
 
 int hashtable:: hash(char * value)
 {
@@ -32,9 +29,6 @@ int hashtable:: hash(char * value)
   }
 
   return size % hash_table_size;
-
-
-
 }
 
 //add items to the array
@@ -49,10 +43,7 @@ int hashtable:: add(char * to_add, int owes)
   temp -> next = array[place];
   array[place] = temp;
   return 1;
-
 }
-
-
 
 int hashtable:: display(char * value)
 {
@@ -64,7 +55,6 @@ int hashtable:: display(char * value)
   return display(array[place], value);
 
 }
-
 
 int hashtable:: display(node_ARR * head, char * value)
 {
@@ -130,24 +120,37 @@ int hashtable:: remove_all()
 {
   if(!array)
     return 0;
+  for(int i=0; i<hash_table_size; ++i)
+  {
+    if(array[i] != NULL)
+    {
+      delete [] array[i]->data;
+      delete array[i];
+      array[i] = NULL;
+    }
+  }
+  return 1;
+  /*
+  if(!array)
+    return 0;
 
-  int index =0;
+  int index = 0;
   return remove_all(array, index);
-
+   */
 }
 
 int hashtable:: remove_all(node_ARR ** array, int &index)
 {
+  int hold = 0;
   if(index >= 0 && index < hash_table_size)
   {
-    int hold = remove_all(array[index]);
+    hold = remove_all(array[index]);
     return remove_all(array, ++index);
   }
   return 0;
-
 }
 
-int hashtable:: remove_all(node_ARR *&head)
+int hashtable:: remove_all(node_ARR *& head)
 {
   if(!head)
     return 0;
@@ -193,6 +196,7 @@ double hashtable::time_search(char * filename)
 {
   ifstream file_in;
   int count = 0;
+  int miss = 0;
   clock_t start, end;
   double cpu_time_used;
   //file_in.open("../large1.txt");
@@ -214,9 +218,11 @@ double hashtable::time_search(char * filename)
     file_in >> temp_owed;
     file_in.ignore(100, '\n');
     //cout << temp_name << ", " << temp_owed << endl;
-    display2(temp_name);
+    if(display2(temp_name) == -1)
+      ++miss;
   }
   end = clock();
+  cout << "number of misses: " << miss << endl;
   cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
   file_in.close();
   return cpu_time_used;
